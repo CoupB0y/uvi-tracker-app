@@ -1,10 +1,10 @@
-import {StyleSheet, View, Text} from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
-function Header({ children}) {
+function Header({ children }) {
     return (
         <View style={styles.headerContainer}>
-                <Text style={styles.headerText}> {children}</Text>
-            </View>
+            <Text style={styles.headerText}> {children}</Text>
+        </View>
     );
 }
 
