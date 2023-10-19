@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text } from "react-native";
+import Colors from "../constants/colors";
 
 function Header({ children }) {
     return (
@@ -14,10 +15,8 @@ const styles = StyleSheet.create({
     headerContainer: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "blue",
         width: "100%",
         height: "10%",
-        marginTop: 0,
     },
     headerText: {
         fontSize: 24,

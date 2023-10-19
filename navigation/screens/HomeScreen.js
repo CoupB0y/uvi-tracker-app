@@ -1,9 +1,9 @@
 import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 
 import PrimaryButton from "../../components/PrimaryButton";
 import Header from "../../components/Header";
+import Colors from "../../constants/colors";
 
 function HomeScreen() {
     return (
@@ -30,10 +30,9 @@ const styles = StyleSheet.create({
     uvConatiner: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "blue",
+        backgroundColor: Colors.primary300,
         width: "50%",
         height: "10%",
-        marginTop: 0,
         borderRadius: 10,
     },
     uvText: {
