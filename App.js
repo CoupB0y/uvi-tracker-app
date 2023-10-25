@@ -2,7 +2,8 @@ import * as React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import HomeScreen from "./navigation/screens/HomeScreen";
+import HomeScreen from "./screens/HomeScreen";
+import DetailsScreen from "./screens/DetailsScreen";
 import Colors from "./constants/colors";
 
 function App() {

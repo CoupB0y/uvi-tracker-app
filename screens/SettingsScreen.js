@@ -1,25 +1,21 @@
 import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-import PrimaryButton from "../../components/PrimaryButton";
-import Header from "../../components/Header";
-import Colors from "../../constants/colors";
+import PrimaryButton from "../components/PrimaryButton";
+import Header from "../components/Header";
+import Colors from "../constants/colors";
 
-function HomeScreen() {
+function SettingsScreen() {
     return (
         <View style={styles.rootContainer}>
-            <Header>UV Index</Header>
-            <View style={styles.uvConatiner}>
-                <Text style={styles.uvText}>UV index: 0</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-                <PrimaryButton>Connect Device</PrimaryButton>
-            </View>
+            <View></View>
+            <View></View>
+            <View></View>
         </View>
     );
 }
 
-export default HomeScreen;
+export default SettingsScreen;
 
 const styles = StyleSheet.create({
     rootContainer: {
