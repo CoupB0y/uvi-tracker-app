@@ -1,14 +1,12 @@
-import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 import PrimaryButton from "../components/PrimaryButton";
-import Header from "../components/Header";
 import Colors from "../constants/colors";
 
 function HomeScreen() {
+    // display current uv index and connect device button
     return (
         <View style={styles.rootContainer}>
-            <Header>UV Index</Header>
             <View style={styles.uvConatiner}>
                 <Text style={styles.uvText}>UV index: 0</Text>
             </View>
@@ -25,7 +23,7 @@ const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "center",
     },
     uvConatiner: {
         alignItems: "center",

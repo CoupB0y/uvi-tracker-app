@@ -1,16 +1,19 @@
-import * as React from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
-import Header from "../components/Header";
 import Colors from "../constants/colors";
 
-
 function DetailsScreen() {
+    // show graphs and stuff
     return (
         <View style={styles.rootContainer}>
-            <Header>UVI Data</Header>
-            <View style={styles.uvConatiner}>
-                <FlatList> <Text> Test </Text></FlatList>
+            <View style={styles.textConatiner}>
+                <Text style={styles.text}>Lorem Ipsum</Text>
+            </View>
+            <View style={styles.textConatiner}>
+                <Text style={styles.text}> Lorem Ipsum</Text>
+            </View>
+            <View style={styles.textConatiner}>
+                <Text style={styles.text}> Lorem Ipsum</Text>
             </View>
         </View>
     );
@@ -22,17 +25,18 @@ const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "center",
     },
-    uvConatiner: {
+    textConatiner: {
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: Colors.primary300,
-        width: "50%",
+        width: "90%",
         height: "10%",
         borderRadius: 10,
+        margin: 10,
     },
-    uvText: {
+    text: {
         fontSize: 24,
         color: "white",
         fontWeight: "bold",

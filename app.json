@@ -9,8 +9,9 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ccc"
     },
+    "backgroundColor": "#ccc",
     "plugins": [
         [
             "@config-plugins/react-native-ble-plx",
