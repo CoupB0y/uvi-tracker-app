@@ -1,0 +1,228 @@
+import React, {useEffect, useState} from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
+import {BleManager, Device} from 'react-native-ble-plx';
+import {PermissionsAndroid} from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+
+
+const App = () => {
+  const [manager, setManager] = useState<BleManager>();
+
+  useEffect(() => {
+    const bleManager = new BleManager();
+    setManager(bleManager);
+    }, []);
+
+  const [devices, setDevices] = useState<Device[]>([]);
+  const [activeTab, setActiveTab] = useState('Bluetooth');
+  const [uvIndex, setUvIndex] = useState<number>(0);
+
+  const requestPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Bluetooth Permission',
+          message:
+            'This app requires access to your location to use Bluetooth.',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Location permission granted');
+      } else {
+        console.log('Location permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  
+  useEffect(() => {
+    requestPermission();
+  }, []);
+  
+
+  const startScan = async () => {
+    if (!manager) {
+      console.log('BLE manager not initialized');
+      return;
+    }
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Bluetooth Permission',
+          message:
+            'This app requires access to your location to use Bluetooth.',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Location permission granted');
+        setDevices([]);
+        manager.startDeviceScan(null, null, (error, device) => {
+          if (error) {
+            console.log(error);
+            return;
+          }
+          if (device) {
+            setDevices(prev => [...prev, device]);
+          }
+        });
+      } else {
+        console.log('Location permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  
+  
+
+  const stopScan = () => {
+    manager.stopDeviceScan();
+  };
+
+  const getUvIndexColor = (index: number): string => {
+    if (index >= 0 && index <= 2) {
+      return 'green';
+    } else if (index >= 3 && index <= 5) {
+      return 'yellow';
+    } else if (index >= 6 && index <= 7) {
+      return 'orange';
+    } else if (index >= 8 && index <= 10) {
+      return 'red';
+    } else {
+      return 'purple';
+    }
+  };
+
+  const renderBluetoothSection = () => (
+    <View style={styles.bluetoothSection}>
+      <TouchableOpacity style={styles.button} onPress={startScan}>
+        <Text style={styles.buttonText}>Start scanning</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={stopScan}>
+        <Text style={styles.buttonText}>Stop scanning</Text>
+      </TouchableOpacity>
+      <FlatList
+        data={devices}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <Text>{item.name || 'Unknown device'} ({item.id})</Text>
+        )}
+      />
+    </View>
+  );
+
+  const renderUVIndexSection = () => (
+    <View style={styles.uvIndexContainer}>
+      <Text style={styles.title}>UV Index</Text>
+      <Text
+        style={[
+          styles.uvIndexText,
+          {color: getUvIndexColor(uvIndex)},
+        ]}>
+        {uvIndex}
+      </Text>
+    </View>
+  );
+
+  const renderInfoSection = () => <Text>Info section</Text>;
+  const renderHistorySection = () => <Text>History section</Text>;
+
+  const renderSection = () => {
+    switch (activeTab) {
+      case 'UV Index':
+        return renderUVIndexSection();
+      case 'Info':
+        return renderInfoSection();
+      case 'History':
+        return renderHistorySection();
+      case 'Bluetooth':
+      default:
+        return renderBluetoothSection();
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>{renderSection()}</View>
+      <View style={styles.footer}>
+        {['Bluetooth', 'UV Index', 'Info', 'History'].map(tab => (
+          <TouchableOpacity
+            key={tab}
+            style={styles.footerButton}
+            onPress={() => setActiveTab(tab)}>
+            <Text style={styles.footerButtonText}>{tab}</Text>
+          </TouchableOpacity>
+        ))}
+            </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  bluetoothSection: {
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+  },
+  footer: {
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: '#CCCCCC',
+  },
+  footerButton: {
+    flex: 1,
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5F5F5',
+  },
+  footerButtonText: {
+    fontSize: 16,
+  },
+  uvIndexContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  uvIndexText: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+});
+
+export default App;
+

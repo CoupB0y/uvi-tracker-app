@@ -1,17 +1,32 @@
+import { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 import PrimaryButton from "../components/PrimaryButton";
 import Colors from "../constants/colors";
+import ConnectionsModal from "./ConnectionsModal";
 
 function HomeScreen() {
     // display current uv index and connect device button
+    const [modalIsVisible, setModalIsVisible] = useState(false);
+
+    function startScanHandler() {
+        setModalIsVisible(true);
+    }
+
+    function endScanHandler() {
+        setModalIsVisible(false);
+    }
+
     return (
         <View style={styles.rootContainer}>
             <View style={styles.uvConatiner}>
                 <Text style={styles.uvText}>UV index: 0</Text>
             </View>
+            <ConnectionsModal visible={modalIsVisible} onCancel={endScanHandler}/>
             <View style={styles.buttonContainer}>
-                <PrimaryButton>Connect Device</PrimaryButton>
+                <PrimaryButton onPress={startScanHandler}>
+                    Connect Device
+                </PrimaryButton>
             </View>
         </View>
     );
