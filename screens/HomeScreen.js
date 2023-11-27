@@ -1,32 +1,36 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 import PrimaryButton from "../components/PrimaryButton";
 import Colors from "../constants/colors";
-import ConnectionsModal from "./ConnectionsModal";
 
 function HomeScreen() {
     // display current uv index and connect device button
-    const [modalIsVisible, setModalIsVisible] = useState(false);
+    
+    const [curUVIndex, setCurUVIndex] = useState(2);
+    const [uvColor, setUVColor] = useState("white");    
 
-    function startScanHandler() {
-        setModalIsVisible(true);
-    }
-
-    function endScanHandler() {
-        setModalIsVisible(false);
-    }
+    const getUVIndexColor = (index)  => { // determines the color of the uv display 
+        if (index >= 0 && index <= 2) {
+          return 'green';
+        } else if (index >= 3 && index <= 5) {
+          return 'yellow';
+        } else if (index >= 6 && index <= 7) {
+          return 'orange';
+        } else if (index >= 8 && index <= 10) {
+          return 'red';
+        } else {
+          return 'purple';
+        }
+      };
 
     return (
         <View style={styles.rootContainer}>
-            <View style={styles.uvConatiner}>
-                <Text style={styles.uvText}>UV index: 0</Text>
+            <View style={[styles.uvConatiner, {backgroundColor: getUVIndexColor(curUVIndex)}]}>
+                <Text style={styles.uvText}>UV Index: {curUVIndex}</Text>
             </View>
-            <ConnectionsModal visible={modalIsVisible} onCancel={endScanHandler}/>
             <View style={styles.buttonContainer}>
-                <PrimaryButton onPress={startScanHandler}>
-                    Connect Device
-                </PrimaryButton>
+                <PrimaryButton>Connect Device</PrimaryButton>
             </View>
         </View>
     );
@@ -43,7 +47,6 @@ const styles = StyleSheet.create({
     uvConatiner: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: Colors.primary300,
         width: "50%",
         height: "10%",
         borderRadius: 10,
@@ -52,6 +55,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: "white",
         fontWeight: "bold",
+        textShadowColor: 'black', textShadowRadius: 2, textShadowOffset: { 
+            width: 1,
+            height: 1
+          }
     },
     buttonContainer: {
         margin: 20,

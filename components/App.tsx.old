@@ -11,7 +11,7 @@ import {BleManager, Device} from 'react-native-ble-plx';
 import {PermissionsAndroid} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 
-
+ß
 const App = () => {
   const [manager, setManager] = useState<BleManager>();
 
